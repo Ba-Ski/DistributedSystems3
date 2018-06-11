@@ -28,6 +28,7 @@ namespace DistrSystems3
                 uri,
                 WellKnownObjectMode.Singleton);
 
+            Console.WriteLine("Hit enter to quit");
             Console.ReadLine();
         }
     }

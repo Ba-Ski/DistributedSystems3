@@ -10,7 +10,7 @@ namespace DistrSystems3
     public class Client
     {
         private const int PollDelay = 5000;
-        private readonly bool _stop;
+        private bool _stop;
         private readonly List<string> _tasks;
 
         public Client()
@@ -27,9 +27,10 @@ namespace DistrSystems3
             Console.WriteLine($"your id: {guid}");
             Console.WriteLine(" type 'c' for connect");
             Console.WriteLine(" type 'd' for disconnect");
+            Console.WriteLine(" type 'q' for quit");
 
             Console.WriteLine(" type 'a' for add task");
-            Console.WriteLine(" type 'v' for balance the load");
+            Console.WriteLine(" type 'b' for balance the load");
 
 
             while (!_stop)
@@ -47,7 +48,10 @@ namespace DistrSystems3
                     case 'a':
                         mRemoteObject.AddTask(new List<string>() {Guid.NewGuid().ToString()});
                         break;
-
+                    case 'q':
+                        mRemoteObject.Disconnect(guid);
+                        _stop = true;
+                        break;
                     case 'b':
                         mRemoteObject.BalanceLoad();
                         break;
@@ -67,6 +71,7 @@ namespace DistrSystems3
             Console.WriteLine($"your id: {guid}");
             Console.WriteLine(" type 'c' for connect");
             Console.WriteLine(" type 'd' for disconnect");
+            Console.WriteLine(" type 'q' for quit");
 
             while (!_stop)
             {
@@ -80,6 +85,10 @@ namespace DistrSystems3
                         break;
                     case 'd':
                         mRemoteObject.Disconnect(guid);
+                        break;
+                    case 'q':
+                        mRemoteObject.Disconnect(guid);
+                        _stop = true;
                         break;
                     default:
                         break;
