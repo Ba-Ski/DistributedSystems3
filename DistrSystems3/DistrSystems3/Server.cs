@@ -68,27 +68,17 @@ namespace DistrSystems3
         {
             lock (_clients)
             {
-                var minTaskClientId = _clients
-                    .OrderBy(c => c.Value.Count)
-                    .Select(c => c.Key);
-
-                AssignTasksToClients(minTaskClientId);
-            }
-        }
-
-        private void AssignTasksToClients(IEnumerable<string> minTaskClientId)
-        {
-            foreach (var id in minTaskClientId)
-            {
-                lock (_freeTasks)
+                while (_freeTasks.Count > 0)
                 {
-                    if (!_freeTasks.Any())
-                    {
-                        return;
-                    }
+                    var minTaskClientId = _clients
+                        .OrderBy(c => c.Value.Count)
+                        .Select(c => c.Key).First();
 
-                    _clients[id].Add(_freeTasks.First());
-                    _freeTasks.Remove(_freeTasks.First());
+                        lock (_freeTasks)
+                        {
+                            _clients[minTaskClientId].Add(_freeTasks.First());
+                            _freeTasks.Remove(_freeTasks.First());
+                        }
                 }
             }
         }
